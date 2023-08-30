@@ -1,63 +1,63 @@
-function validateForm() {
-    // Validar el nombre (solo letras y espacios, sin números)
-    const nameInput = document.getElementById('name');
-    const nameError = document.getElementById('nameError');
-    const namePattern = /^[A-Za-z\s]+$/;
+function validarNombre(nombre) {
+  return /^[a-zA-Z ]+$/.test(nombre);
+}
 
-    if (!namePattern.test(nameInput.value)) {
-      nameError.style.display = 'block';
-      nameInput.classList.add('is-invalid');
-      return false;
-    } else {
-      nameError.style.display = 'none';
-      nameInput.classList.remove('is-invalid');
-    }
+// Función para validar el correo electrónico
+function validarCorreo(correo) {
+  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(correo);
+}
 
-    // Validar el correo electrónico (formato de email válido)
-    const emailInput = document.getElementById('email');
-    const emailError = document.getElementById('emailError');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailPattern.test(emailInput.value)) {
-      emailError.style.display = 'block';
-      emailInput.classList.add('is-invalid');
-      return false;
-    } else {
-      emailError.style.display = 'none';
-      emailInput.classList.remove('is-invalid');
-    }
 
-    // Validar el número de teléfono (solo números, sin letras)
-    const phoneInput = document.getElementById('phone');
-    const phoneError = document.getElementById('phoneError');
-    const phonePattern = /^\d+$/;
+// Función para validar el número
+function validarNumero(numero) {
+  return /^(?!.*(.)\1{4})\d{10}$/.test(numero);
+}
 
-    if (!phonePattern.test(phoneInput.value)) {
-      phoneError.style.display = 'block';
-      phoneInput.classList.add('is-invalid');
-      return false;
-    } else {
-      phoneError.style.display = 'none';
-      phoneInput.classList.remove('is-invalid');
-    }
+const signupForm = document.querySelector('#contactoForm');
+contactoForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    // Validar el mensaje (no puede estar vacío)
-    const messageInput = document.getElementById('message');
-    const messageError = document.getElementById('messageError');
+  const name = document.querySelector('#name').value;
+  const email = document.querySelector('#email').value;
+  const phoneNumber = document.querySelector('#phoneNumber').value;
 
-    if (messageInput.value.trim() === '') {
-      messageError.style.display = 'block';
-      messageInput.classList.add('is-invalid');
-      return false;
-    } else {
-      messageError.style.display = 'none';
-      messageInput.classList.remove('is-invalid');
-    }
-
-    // Si todas las validaciones pasan, se puede enviar el formulario
-    return true;
+  // Validar el nombre antes de continuar
+  if (!validarNombre(name)) {
+      await Swal.fire({
+          icon: 'error',
+          title: 'Nombre no válido',
+          text: 'Por favor, ingresa un nombre válido.',
+      });
+      return;
   }
 
+  // Validar el número antes de continuar
+  if (!validarNumero(phoneNumber)) {
+      await Swal.fire({
+          icon: 'error',
+          title: 'Número no válido',
+          text: 'Por favor, ingresa un número de 10 dígitos sin más de 4 dígitos repetidos consecutivamente.',
+      });
+      return;
+  }
 
+ 
+
+
+
+  Users.push({ name: name, email: email, password: password, phoneNumber: phoneNumber });
+  localStorage.setItem('users', JSON.stringify(Users));
+
+  await Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'tu menaje fue enviado con exito',
+    showConfirmButton: false,
+    timer: 1500
+  })
+
+  window.location.href = '#containernom';
+});
 
 
